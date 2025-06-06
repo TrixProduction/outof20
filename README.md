@@ -1,4 +1,4 @@
-<img alt="OutOf20" src="blob/Ooutof20.png" width="100%" />
+<img alt="OutOf20" src="blob/banners.png" width="100%" />
 
 
 # OutOf20 – Portail étudiant
