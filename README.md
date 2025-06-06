@@ -21,7 +21,7 @@ Ce dépôt GitHub contient :
 ├── frontend/                # Vite + React 18 (TS) + Tailwind
 │   ├── index.html
 │   ├── src/
-│   └── vite.config.ts
+│   └── ...
 └── bulletins/               # Fonctions Cloud Functions Gen 2 (Node 20)
     ├── index.js             # getNotesSummary + syncNotesSummary
     ├── package.json
@@ -48,13 +48,6 @@ npm install
 npm run dev          # http://localhost:5173
 ```
 
-Définir l’URL de l’API dans un `.env` :
-
-```
-VITE_API_URL=https://us-central1-<projet>.cloudfunctions.net/getNotesSummary
-```
-
----
 
 ## 2. Back-end (Cloud Functions Gen 2)
 
