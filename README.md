@@ -15,10 +15,10 @@ Ce dépôt GitHub contient :
 
 ## Quelques images du site
 
-<img alt="OutOf20" src="blob/sites3.PNG" width="100%" />
-<img alt="OutOf20" src="blob/sites4.PNG" width="100%" />
-<img alt="OutOf20" src="blob/sites5.PNG" width="100%" />
-<img alt="OutOf20" src="blob/sites6.PNG" width="100%" />
+<img alt="OutOf20" src="blob/sites3.png" width="100%" />
+<img alt="OutOf20" src="blob/sites4.png" width="100%" />
+<img alt="OutOf20" src="blob/sites5.png" width="100%" />
+<img alt="OutOf20" src="blob/sites6.png" width="100%" />
 
 ---
 
@@ -48,6 +48,16 @@ Ce dépôt GitHub contient :
 | Bundler / Dev-server | Vite                          |
 | Styling              | Tailwind CSS 3.4.1            |
 | Qualité de code      | ESLint + `@typescript-eslint` |
+
+### configuration du .env
+
+```
+
+NTFYTOPICID=votre_id_de_topic_ntfy
+
+```
+
+Cette configration permet au site de fournir un tutoriel facile pour parametrer les notifications sur mobile facilement.
 
 ### Installation et exécution locale
 
