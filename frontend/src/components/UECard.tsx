@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, ChevronRight, TrendingUp } from 'lucide-react';
+import { BookOpen, ChevronRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 interface UECardProps {
   code: string;
@@ -9,51 +9,51 @@ interface UECardProps {
 }
 
 export const UECard: React.FC<UECardProps> = ({ code, titre, moyenne, onClick }) => {
-  const getGradeColor = (grade: number) => {
-    if (grade >= 16) return 'from-emerald-500/20 to-green-500/20 border-emerald-400/30';
-    if (grade >= 14) return 'from-blue-500/20 to-cyan-500/20 border-blue-400/30';
-    if (grade >= 12) return 'from-orange-500/20 to-amber-500/20 border-orange-400/30';
-    return 'from-red-500/20 to-pink-500/20 border-red-400/30';
+  const getGradeIndicator = (grade: number) => {
+    if (grade >= 16) return { icon: TrendingUp, color: 'unity-metric-up' };
+    if (grade >= 12) return { icon: Minus, color: 'unity-metric-neutral' };
+    return { icon: TrendingDown, color: 'unity-metric-down' };
   };
 
-  const getGradeBadgeColor = (grade: number) => {
-    if (grade >= 16) return 'bg-gradient-to-r from-emerald-500 to-green-500 text-white';
-    if (grade >= 14) return 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white';
-    if (grade >= 12) return 'bg-gradient-to-r from-orange-500 to-amber-500 text-white';
-    return 'bg-gradient-to-r from-red-500 to-pink-500 text-white';
+  const getGradeBadgeClass = (grade: number) => {
+    if (grade >= 16) return 'unity-gradient-emerald';
+    if (grade >= 12) return 'unity-gradient-cyan';
+    return 'unity-gradient-carmin';
   };
 
-  const getGradeTextColor = (grade: number) => {
-    if (grade >= 16) return 'text-emerald-300';
-    if (grade >= 14) return 'text-blue-300';
-    if (grade >= 12) return 'text-orange-300';
-    return 'text-red-300';
-  };
+  const indicator = getGradeIndicator(moyenne);
+  const Icon = indicator.icon;
 
   return (
     <div
-      className={`card-gradient card-rainbow-hover p-6 cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 border-2 bg-gradient-to-br ${getGradeColor(moyenne)} group`}
+      className="unity-card p-4 sm:p-6 cursor-pointer group"
       onClick={onClick}
     >
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-4 flex-1">
-          <div className="p-3 bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-slate-600/30 group-hover:bg-slate-600/50 transition-colors duration-300">
-            <BookOpen className="text-slate-300" size={24} />
+      <div className="flex items-start justify-between gap-3 sm:gap-4">
+        <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+          <div className="unity-sidebar-icon flex-shrink-0">
+            <BookOpen className="text-white/60" size={16} />
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="font-bold text-xl text-white font-['Lexend_Deca']">{code}</h3>
-              <TrendingUp size={16} className={getGradeTextColor(moyenne)} />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 sm:gap-3 mb-2">
+              <h3 className="unity-title text-base sm:text-lg">{code}</h3>
+              <Icon size={12} className={`${indicator.color} flex-shrink-0 sm:w-3.5 sm:h-3.5`} />
             </div>
-            <p className="text-slate-300 text-sm leading-relaxed font-['DM_Sans'] line-clamp-2">{titre}</p>
+            <p className="unity-body leading-relaxed line-clamp-3 text-sm sm:text-base">{titre}</p>
+            
+            {/* Sparkline simulation */}
+            <div className="mt-3 sm:mt-4">
+              <div className="unity-sparkline w-full"></div>
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-3">
-          <div className={`px-4 py-2 ${getGradeBadgeColor(moyenne)} font-bold text-sm font-['Lexend_Deca'] shadow-lg`}>
-            {moyenne.toFixed(2)} / 20
+        
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className={`px-2 sm:px-3 py-1 ${getGradeBadgeClass(moyenne)} text-white text-xs sm:text-sm font-medium rounded`}>
+            {moyenne.toFixed(2)}
           </div>
-          <div className="p-2 bg-slate-700/30 border border-slate-600/30 group-hover:translate-x-1 transition-transform duration-300">
-            <ChevronRight className="text-slate-400" size={20} />
+          <div className="unity-sidebar-icon !w-8 !h-8 sm:!w-10 sm:!h-10 group-hover:translate-x-1 transition-transform">
+            <ChevronRight className="text-white/40" size={14} />
           </div>
         </div>
       </div>

@@ -15,8 +15,10 @@ Ce dépôt GitHub contient :
 
 ## Quelques images du site
 
-<img alt="OutOf20" src="blob/sites1.PNG" width="100%" />
-<img alt="OutOf20" src="blob/sites2.PNG" width="100%" />
+<img alt="OutOf20" src="blob/sites3.PNG" width="100%" />
+<img alt="OutOf20" src="blob/sites4.PNG" width="100%" />
+<img alt="OutOf20" src="blob/sites5.PNG" width="100%" />
+<img alt="OutOf20" src="blob/sites6.PNG" width="100%" />
 
 ---
 

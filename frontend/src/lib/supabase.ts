@@ -1,4 +1,4 @@
-
+// Remove Supabase dependency and use direct Google Cloud Functions call
 export const fetchGrades = async (demo: boolean = false) => {
   // If demo requested, return mock data
   if (demo) {
@@ -304,7 +304,7 @@ export const fetchGrades = async (demo: boolean = false) => {
       }
     };
 
-
+    // Simulate a small delay to show loading state
     await new Promise(resolve => setTimeout(resolve, 800));
     
     return mockData;

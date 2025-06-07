@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Weight, TrendingUp } from 'lucide-react';
+import { Calendar, Weight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { Evaluation } from '../types/grades';
 
 interface EvaluationCardProps {
@@ -7,25 +7,16 @@ interface EvaluationCardProps {
 }
 
 export const EvaluationCard: React.FC<EvaluationCardProps> = ({ evaluation }) => {
-  const getGradeColor = (grade: number) => {
-    if (grade >= 16) return 'text-emerald-300';
-    if (grade >= 14) return 'text-blue-300';
-    if (grade >= 12) return 'text-orange-300';
-    return 'text-red-300';
+  const getGradeIndicator = (grade: number) => {
+    if (grade >= 16) return { icon: TrendingUp, color: 'unity-metric-up' };
+    if (grade >= 12) return { icon: Minus, color: 'unity-metric-neutral' };
+    return { icon: TrendingDown, color: 'unity-metric-down' };
   };
 
-  const getGradeBg = (grade: number) => {
-    if (grade >= 16) return 'bg-gradient-to-br from-emerald-500/10 to-green-500/10 border-emerald-400/20';
-    if (grade >= 14) return 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-400/20';
-    if (grade >= 12) return 'bg-gradient-to-br from-orange-500/10 to-amber-500/10 border-orange-400/20';
-    return 'bg-gradient-to-br from-red-500/10 to-pink-500/10 border-red-400/20';
-  };
-
-  const getGradeBadge = (grade: number) => {
-    if (grade >= 16) return 'bg-gradient-to-r from-emerald-500 to-green-500';
-    if (grade >= 14) return 'bg-gradient-to-r from-blue-500 to-cyan-500';
-    if (grade >= 12) return 'bg-gradient-to-r from-orange-500 to-amber-500';
-    return 'bg-gradient-to-r from-red-500 to-pink-500';
+  const getGradeBadgeClass = (grade: number) => {
+    if (grade >= 16) return 'unity-gradient-emerald';
+    if (grade >= 12) return 'unity-gradient-cyan';
+    return 'unity-gradient-carmin';
   };
 
   const formatDate = (dateString: string | null) => {
@@ -35,38 +26,44 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({ evaluation }) =>
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
     });
   };
 
+  const indicator = getGradeIndicator(evaluation.note);
+  const Icon = indicator.icon;
+
   return (
-    <div className={`card-gradient card-rainbow-hover border-2 p-5 ${getGradeBg(evaluation.note)} transition-all duration-300 group`}>
-      <div className="flex items-center justify-between mb-4">
-        <h4 className="font-semibold text-white flex-1 font-['DM_Sans'] text-lg">{evaluation.evaluation}</h4>
-        <div className={`px-3 py-1 ${getGradeBadge(evaluation.note)} text-white font-bold text-lg font-['Lexend_Deca'] shadow-lg`}>
+    <div className="unity-card p-4 sm:p-5 group">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <h4 className="unity-subtitle text-sm sm:text-base flex-1 line-clamp-2 pr-3">{evaluation.evaluation}</h4>
+        <div className={`px-2 sm:px-3 py-1 ${getGradeBadgeClass(evaluation.note)} text-white font-medium text-xs sm:text-sm rounded flex items-center gap-1 sm:gap-2 flex-shrink-0`}>
+          <Icon size={10} className="sm:w-3 sm:h-3" />
           {evaluation.note.toFixed(2)}
         </div>
       </div>
       
-      <div className="flex items-center gap-6 text-sm text-slate-300 mb-3">
+      <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm text-unity-muted mb-3">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-slate-700/30 border border-slate-600/30">
-            <Weight size={14} />
+          <div className="unity-sidebar-icon !w-5 !h-5 sm:!w-6 sm:!h-6">
+            <Weight size={10} className="text-white/40 sm:w-3 sm:h-3" />
           </div>
-          <span className="font-medium">Coef. {evaluation.coef}</span>
+          <span>Coef. {evaluation.coef}</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-slate-700/30 border border-slate-600/30">
-            <Calendar size={14} />
+          <div className="unity-sidebar-icon !w-5 !h-5 sm:!w-6 sm:!h-6">
+            <Calendar size={10} className="text-white/40 sm:w-3 sm:h-3" />
           </div>
-          <span>{formatDate(evaluation.date)}</span>
+          <span className="truncate">{formatDate(evaluation.date)}</span>
         </div>
       </div>
       
-      <div className="flex items-center gap-2 text-sm text-slate-400">
-        <TrendingUp size={14} className={getGradeColor(evaluation.note)} />
-        <span>Matière: <span className="font-medium text-slate-300">{evaluation.parent}</span></span>
+      <div className="text-xs sm:text-sm text-unity-muted">
+        <span>Matière: <span className="text-unity-secondary">{evaluation.parent}</span></span>
+      </div>
+      
+      {/* Sparkline */}
+      <div className="mt-3 sm:mt-4">
+        <div className="unity-sparkline w-full"></div>
       </div>
     </div>
   );

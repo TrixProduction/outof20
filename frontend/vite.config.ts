@@ -7,4 +7,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  define: {
+    'import.meta.env.VITE_NTFY_TOPIC_ID': JSON.stringify(process.env.NTFYTOPICID || 'dimitrisnotes'),
+  },
 });

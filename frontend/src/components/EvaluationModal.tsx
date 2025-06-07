@@ -1,5 +1,5 @@
-import React from 'react';
-import { X, BookOpen, TrendingUp } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { X, BookOpen, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { Evaluation } from '../types/grades';
 import { EvaluationCard } from './EvaluationCard';
 
@@ -20,58 +20,96 @@ export const EvaluationModal: React.FC<EvaluationModalProps> = ({
   evaluations,
   moyenne,
 }) => {
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
-  const getGradeColor = (grade: number) => {
-    if (grade >= 16) return 'from-emerald-500 to-green-500';
-    if (grade >= 14) return 'from-blue-500 to-cyan-500';
-    if (grade >= 12) return 'from-orange-500 to-amber-500';
-    return 'from-red-500 to-pink-500';
+  const getGradeIndicator = (grade: number) => {
+    if (grade >= 16) return { icon: TrendingUp, color: 'unity-metric-up' };
+    if (grade >= 12) return { icon: Minus, color: 'unity-metric-neutral' };
+    return { icon: TrendingDown, color: 'unity-metric-down' };
   };
 
+  const getGradeBadgeClass = (grade: number) => {
+    if (grade >= 16) return 'unity-gradient-emerald';
+    if (grade >= 12) return 'unity-gradient-cyan';
+    return 'unity-gradient-carmin';
+  };
+
+  const indicator = getGradeIndicator(moyenne);
+  const GradeIcon = indicator.icon;
+
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="card-gradient shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden border border-slate-600/30">
-        <div className={`flex items-center justify-between p-8 bg-gradient-to-r ${getGradeColor(moyenne)} relative overflow-hidden`}>
-          {/* Background decoration */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
-          
-          <div className="flex items-center gap-6 relative z-10">
-            <div className="p-4 bg-white/20 backdrop-blur-sm border border-white/30">
-              <BookOpen size={32} className="text-white" />
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 unity-modal-overlay">
+      <div className="unity-card shadow-2xl w-full max-h-[95vh] overflow-hidden unity-modal-content max-w-4xl">
+        {/* Header */}
+        <div className={`flex items-center justify-between p-4 sm:p-6 lg:p-8 ${getGradeBadgeClass(moyenne)} relative`}>
+          <div className="flex items-center gap-3 sm:gap-6 flex-1 min-w-0">
+            <div className="unity-sidebar-icon !bg-white/20 flex-shrink-0">
+              <BookOpen size={20} className="text-white sm:w-6 sm:h-6" />
             </div>
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-3xl font-bold text-white font-['Lexend_Deca']">{ueCode}</h2>
-                <TrendingUp size={24} className="text-white/80" />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                <h2 className="text-lg sm:text-xl lg:text-2xl unity-title truncate">{ueCode}</h2>
+                <GradeIcon size={16} className="text-white/80 flex-shrink-0 sm:w-5 sm:h-5" />
               </div>
-              <p className="text-white/90 text-lg font-['DM_Sans'] max-w-lg">{ueTitle}</p>
+              <p className="text-white/90 text-sm sm:text-base line-clamp-2">{ueTitle}</p>
             </div>
           </div>
-          <div className="flex items-center gap-6 relative z-10">
+          
+          <div className="flex items-center gap-3 sm:gap-6 flex-shrink-0">
             <div className="text-right">
-              <p className="text-white/80 text-sm font-medium">Moyenne UE</p>
-              <p className="text-4xl font-bold text-white font-['Lexend_Deca']">
+              <p className="text-white/80 text-xs uppercase tracking-wide mb-1">Moyenne UE</p>
+              <p className="text-xl sm:text-2xl lg:text-3xl unity-title">
                 {moyenne.toFixed(2)}
               </p>
-              <p className="text-white/80 text-sm">/ 20</p>
+              <p className="text-white/80 text-xs sm:text-sm">/ 20</p>
             </div>
             <button
               onClick={onClose}
-              className="btn-rainbow-hover p-3 bg-white/20 hover:bg-white/30 border border-white/30 transition-all duration-300"
+              className="unity-sidebar-icon !bg-white/20 hover:!bg-white/30 flex-shrink-0"
+              aria-label="Fermer"
             >
-              <X size={24} className="text-white" />
+              <X size={18} className="text-white sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
-        <div className="p-8 overflow-y-auto max-h-[calc(90vh-180px)] bg-gradient-to-b from-slate-900/50 to-slate-800/50">
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-white font-['Lexend_Deca'] mb-2">Évaluations détaillées</h3>
-            <p className="text-slate-400 text-sm">Cliquez sur une évaluation pour plus de détails</p>
+        {/* Content */}
+        <div className="p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-[calc(95vh-160px)] sm:max-h-[calc(95vh-180px)] lg:max-h-[calc(95vh-200px)] unity-scrollbar bg-unity-dark">
+          <div className="mb-4 sm:mb-6">
+            <h3 className="unity-title text-base sm:text-lg mb-2">Évaluations détaillées</h3>
+            <p className="text-unity-muted text-sm">Détail de toutes les évaluations pour cette UE</p>
           </div>
-          <div className="grid gap-4">
+          
+          <div className="grid gap-3 sm:gap-4">
             {evaluations.map((evaluation, index) => (
               <EvaluationCard key={index} evaluation={evaluation} />
             ))}

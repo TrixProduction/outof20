@@ -22,97 +22,85 @@ export const Header: React.FC<HeaderProps> = ({
   onDemo,
 }) => {
   return (
-    <div className="relative overflow-hidden">
-      {/* Background with animated gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-      
-      {/* Floating elements */}
-      <div className="absolute top-10 right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-10 left-10 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
-      
-      <div className="relative max-w-7xl mx-auto px-6 py-12">
+    <div className="border-b border-white/10 bg-unity-dark">
+      <div className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* Header Title with Action Buttons */}
-        <div className="flex items-center justify-between mb-12">
-          <div className="text-center flex-1">
-            <div className="flex items-center justify-center mb-4">
-              <div>
-                <h1 className="text-6xl font-bold text-white font-['Lexend_Deca']">
-                  out<span className="text-gradient">of</span>20
-                </h1>
-                <p className="text-slate-300 text-lg font-['DM_Sans'] font-light">IUT de Lille • Consultation des notes</p>
-              </div>
-            </div>
+        <div className="flex items-start sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+          <div>
+            <h1 className="text-2xl sm:text-3xl unity-title mb-1 sm:mb-2">
+              out<span className="unity-metric-neutral">of</span>20
+            </h1>
+            <p className="unity-body text-sm sm:text-base">IUT de Lille • Consultation des notes</p>
           </div>
           
           {/* Action Buttons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <button
               onClick={onDemo}
-              className="btn-rainbow-hover p-3 bg-slate-700/20 border border-slate-500/30 transition-all duration-300 group"
+              className="unity-sidebar-icon !w-8 !h-8 sm:!w-10 sm:!h-10"
               title="Voir la démo"
             >
-              <Eye size={20} className="text-slate-300 group-hover:text-slate-200" />
+              <Eye size={14} className="text-white/60 sm:w-4 sm:h-4" />
             </button>
             <button
               onClick={onRetry}
-              className="btn-rainbow-hover p-3 bg-blue-500/20 border border-blue-400/30 transition-all duration-300 group"
+              className="unity-sidebar-icon !w-8 !h-8 sm:!w-10 sm:!h-10"
               title="Actualiser"
             >
-              <RotateCcw size={20} className="text-blue-300 group-hover:text-blue-200" />
+              <RotateCcw size={14} className="text-white/60 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Academic Year Card */}
-          <div className="card-gradient card-rainbow-hover p-6 group transition-all duration-300">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/30">
-                <Calendar className="text-blue-300" size={24} />
+          <div className="unity-card p-4 sm:p-6">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="unity-sidebar-icon flex-shrink-0">
+                <Calendar className="text-white/80" size={16} />
               </div>
-              <div>
-                <p className="text-slate-400 text-sm font-medium">Année universitaire</p>
-                <p className="text-2xl font-bold text-white font-['Lexend_Deca']">{anneeUniversitaire}</p>
-                <p className="text-blue-300 text-sm">Semestre {semestre}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-unity-muted text-xs uppercase tracking-wide mb-1">Année universitaire</p>
+                <p className="unity-title text-lg sm:text-xl truncate">{anneeUniversitaire}</p>
+                <p className="unity-metric-neutral text-sm">Semestre {semestre}</p>
               </div>
             </div>
           </div>
 
           {/* Average Grade Card */}
-          <div className="card-gradient card-rainbow-hover p-6 group transition-all duration-300">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-br from-emerald-500/20 to-green-500/20 border border-emerald-400/30">
-                <Star className="text-emerald-300" size={24} />
+          <div className="unity-card p-4 sm:p-6">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="unity-sidebar-icon flex-shrink-0">
+                <Star className="text-white/80" size={16} />
               </div>
-              <div>
-                <p className="text-slate-400 text-sm font-medium">Moyenne générale</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-unity-muted text-xs uppercase tracking-wide mb-1">Moyenne générale</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold text-gradient font-['Lexend_Deca']">
+                  <span className="unity-title text-xl sm:text-2xl unity-metric-up">
                     {moyenneGenerale.toFixed(2)}
                   </span>
-                  <span className="text-slate-400 text-lg">/ 20</span>
+                  <span className="text-unity-muted text-sm">/ 20</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Ranking Card */}
-          <div className="card-gradient card-rainbow-hover p-6 group transition-all duration-300">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-gradient-to-br from-orange-500/20 to-amber-500/20 border border-orange-400/30">
-                <Trophy className="text-orange-300" size={24} />
+          <div className="unity-card p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="unity-sidebar-icon flex-shrink-0">
+                <Trophy className="text-white/80" size={16} />
               </div>
-              <div>
-                <p className="text-slate-400 text-sm font-medium">Classement</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-unity-muted text-xs uppercase tracking-wide mb-1">Classement</p>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-gradient font-['Lexend_Deca']">
+                  <span className="unity-title text-xl sm:text-2xl unity-metric-neutral">
                     {rang.position}
                   </span>
-                  <span className="text-orange-300 text-lg">e</span>
+                  <span className="unity-metric-neutral text-sm">e</span>
                 </div>
-                <p className="text-slate-400 text-sm">sur {rang.total} étudiants</p>
+                <p className="text-unity-muted text-sm">sur {rang.total} étudiants</p>
               </div>
             </div>
           </div>
