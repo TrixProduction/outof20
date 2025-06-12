@@ -312,7 +312,7 @@ export const fetchGrades = async (demo: boolean = false) => {
 
   try {
     // Call Google Cloud Functions endpoint directly
-    const response = await fetch('https://us-central1-pokendystorm-ff671.cloudfunctions.net/getNotesSummary', {
+    const response = await fetch(import.meta.env.VITE_SUMMARY_URL || 'https://YOUR_REGION-your_project.cloudfunctions.net/getNotesSummary', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
