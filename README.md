@@ -54,10 +54,12 @@ Ce dépôt GitHub contient :
 ```
 
 NTFYTOPICID=votre_id_de_topic_ntfy
+SUMMARYURL=https://YOUR_REGION-your_project.cloudfunctions.net/getNotesSummary
 
 ```
 
-Cette configration permet au site de fournir un tutoriel facile pour parametrer les notifications sur mobile facilement.
+`NTFYTOPICID` correspond au sujet ntfy pour recevoir les notifications sur mobile.
+`SUMMARYURL` doit pointer vers l'URL publique de votre fonction `getNotesSummary`.
 
 ### Installation et exécution locale
 
